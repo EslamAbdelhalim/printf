@@ -96,9 +96,9 @@ unsigned int print_neg_width(buff_t *output, unsigned int printed,
 buff_t *init_buffer(void);
 void free_buffer(buff_t *output);
 unsigned int _memcpy(buff_t *output, const char *src, unsigned int k);
-unsigned int convert_sbase(buff_t *output, long int numm, char *base,
+unsigned int conv_sbase(buff_t *output, long int numm, char *base,
 		unsigned char flags, int width, int p);
-unsigned int convert_ubase(buff_t *output, unsigned long int numm, char *base,
+unsigned int conv_ubase(buff_t *output, unsigned long int numm, char *base,
 		unsigned char flags, int width, int p);
 
 #endif

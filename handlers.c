@@ -1,6 +1,6 @@
 #include "main.h"
 
-int handle_precision(va_list args, const char *modifier, char *index);
+int handle_precision(va_list args, const char *modifier, char *ind);
 unsigned int (*handle_specifiers(const char *specifier))(va_list, buff_t *,
 		unsigned char, int, int, unsigned char);
 

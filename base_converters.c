@@ -34,7 +34,7 @@ unsigned int conv_sbase(buff_t *output, long int numm, char *base,
 
 	else
 	{
-		for (; p > 1; p--, wid--) /* Handle precision */
+		for (; p > 1; p--, width--) /* Handle precision */
 			rt += _memcpy(output, &pad, 1);
 
 		if (NEG_FLAG == 0) /* Handle width */
@@ -96,7 +96,7 @@ unsigned int conv_ubase(buff_t *output, unsigned long int numm, char *base,
 			rt += _memcpy(output, lead, 2);
 	}
 
-	digit = base[(numh % sz)];
+	digit = base[(numm % sz)];
 	_memcpy(output, &digit, 1);
 
 	return (rt);

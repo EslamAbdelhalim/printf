@@ -89,7 +89,7 @@ unsigned int conv_di(va_list args, buff_t *output,
  * @width: A width modifier.
  * @p: A precision modifier.
  * @lenn: A length modifier.
- * @output: A buffer_t struct containing a character array.
+ * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */
@@ -113,7 +113,7 @@ unsigned int conv_b(va_list args, buff_t *output,
  * @width: A width modifier.
  * @p: A precision modifier.
  * @lenn: A length modifier.
- * @output: A buffer_t struct containing a character array.
+ * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */

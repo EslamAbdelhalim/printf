@@ -13,7 +13,7 @@ unsigned int conv_percent(va_list args, buffer_t *output,
  * @width: A width modifier.
  * @p: A precision modifier.
  * @lenn: A length modifier.
- * @output: A buffer_t struct containing a character array.
+ * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */
@@ -43,7 +43,7 @@ unsigned int conv_c(va_list args, buff_t *output,
  * @width: A width modifier.
  * @p: A precision modifier.
  * @lenn: A length modifier.
- * @output: A buffer_t struct containing a character array.
+ * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer (always 1).
  */
