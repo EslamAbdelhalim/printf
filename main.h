@@ -24,13 +24,13 @@
 
 /**
  * struct buff_s - A new type to defining buffer struct
- * @buff: A pointer to a character array
- * @star1t: A pointer to the start of buffer
+ * @buffer: A pointer to a character array
+ * @start1: A pointer to the start of buffer
  * @lenn: The length of the string stored in buffer
  */
 typedef struct buff_s
 {
-	char *buff;
+	char *buffer;
 	char *start1;
 	unsigned int lenn;
 } buff_t;
@@ -49,12 +49,12 @@ typedef struct conv_s
 
 /**
  * struct f_s - A new type defining flags struct.
- * @f: A character representing flag.
+ * @flag: A character representing flag.
  * @value: The integer value of the flag.
 */
 typedef struct f_s
 {
-	unsigned char f;
+	unsigned char flag;
 	unsigned char value;
 } f_t;
 
