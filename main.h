@@ -37,12 +37,12 @@ typedef struct buff_s
 
 /**
  * struct conv_s - A new type defining converter struct.
- * @spec: A character representing a conversion specifier.
+ * @specifier: A character representing a conversion specifier.
  * @func: A pointer to a conversion function corresponding to specifier.
 */
 typedef struct conv_s
 {
-	unsigned char spec;
+	unsigned char specifier;
 	unsigned int (*func)(va_list, buff_t *,
 			unsigned char, int, int, unsigned char);
 } conv_t;
@@ -67,7 +67,13 @@ unsigned int conv_s(va_list args, buff_t *output,
 		unsigned char flags, int width, int p, unsigned char lenn);
 unsigned int conv_di(va_list args, buff_t *output,
 		unsigned char flags, int width, int p, unsigned char lenn);
-unsigned int conv_percent(va_list args, buffer_t *output,
+unsigned int conv_percent(va_list args, buff_t *output,
+		unsigned char flags, int width, int p, unsigned char lenn);
+unsigned int convert_b(va_list args, buff_t *output,
+		unsigned char flags, int width, int p, unsigned char lenn);
+unsigned int convert_u(va_list args, buff_t *output,
+		unsigned char flags, int width, int p, unsigned char lenn);
+unsigned int convert_o(va_list args, buff_t *output,
 		unsigned char flags, int width, int p, unsigned char lenn);
 
 /* Handlers */
