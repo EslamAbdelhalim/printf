@@ -12,7 +12,7 @@ int _printf(const char *format, ...);
 void cleanup(va_list args, buff_t *output)
 {
 	va_end(args);
-	write(1, output->start1, output->lenn);
+	write(1, output->start1, output->len);
 	free_buffer(output);
 }
 
@@ -28,13 +28,13 @@ int run_printf(const char *format, va_list args, buff_t *output)
 {
 	int y, width, p, ret = 0;
 	char tmmpp;
-	unsigned char flags, lenn;
+	unsigned char flags, len;
 	unsigned int (*f)(va_list, buff_t *,
 			unsigned char, int, int, unsigned char);
 
 	for (y = 0; *(format + y); y++)
 	{
-		lenn = 0;
+		len = 0;
 		if (*(format + y) == '%')
 		{
 			tmmpp = 0;
@@ -42,13 +42,13 @@ int run_printf(const char *format, va_list args, buff_t *output)
 			width = handle_width(args, format + y + tmmpp + 1, &tmmpp);
 			p = handle_precision(args, format + y + tmmpp + 1,
 					&tmmpp);
-			lenn = handle_length(format + y + tmmpp + 1, &tmmpp);
+			len = handle_length(format + y + tmmpp + 1, &tmmpp);
 
 			f = handle_specifiers(format + y + tmmpp + 1);
 			if (f != NULL)
 			{
 				y += tmmpp + 1;
-				ret += f(args, output, flags, width, p, lenn);
+				ret += f(args, output, flags, width, p, len);
 				continue;
 			}
 			else if (*(format + y + tmmpp + 1) == '\0')
@@ -58,7 +58,7 @@ int run_printf(const char *format, va_list args, buff_t *output)
 			}
 		}
 		ret += _memcpy(output, (format + y), 1);
-		y += (lenn != 0) ? 1 : 0;
+		y += (len != 0) ? 1 : 0;
 	}
 	cleanup(args, output);
 	return (ret);

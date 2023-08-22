@@ -1,7 +1,7 @@
 #include "main.h"
 
 unsigned int conv_s(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 
 /**
  * conv_s - Converts an argument to a string and
@@ -10,20 +10,20 @@ unsigned int conv_s(va_list args, buff_t *output,
  * @flags: Flag modifiers.
  * @width: Width modifier.
  * @p: Precision modifier.
- * @lenn: Length modifier.
+ * @len: Length modifier.
  * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */
 unsigned int conv_s(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn)
+		unsigned char flags, int width, int p, unsigned char len)
 {
 	char *str, *null = "(null)";
 	int sz;
 	unsigned int ret = 0;
 
 	(void)flags;
-	(void)lenn;
+	(void)len;
 
 	str = va_arg(args, char *);
 	if (str == NULL)

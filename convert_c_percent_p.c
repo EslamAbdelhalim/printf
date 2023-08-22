@@ -1,11 +1,11 @@
 #include "main.h"
 
 unsigned int conv_c(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_percent(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_p(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 /**
  * conv_c - Converts an argument to an unsigned char and
  *             stores it to a buffer contained in a struct.
@@ -13,19 +13,19 @@ unsigned int conv_p(va_list args, buff_t *output,
  * @flags: Flag modifiers.
  * @width: Width modifier.
  * @p: Precision modifier.
- * @lenn: A length modifier.
+ * @len: A length modifier.
  * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */
 unsigned int conv_c(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn)
+		unsigned char flags, int width, int p, unsigned char len)
 {
 	char g;
 	unsigned int ret = 0;
 
 	(void)p;
-	(void)lenn;
+	(void)len;
 
 	g = va_arg(args, int);
 
@@ -43,20 +43,20 @@ unsigned int conv_c(va_list args, buff_t *output,
  * @flags: Flag modifiers.
  * @width: Width modifier.
  * @p: Precision modifier.
- * @lenn: Length modifier.
+ * @len: Length modifier.
  * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer (always 1).
  */
 unsigned int conv_percent(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn)
+		unsigned char flags, int width, int p, unsigned char len)
 {
 	char percent = '%';
 	unsigned int ret = 0;
 
 	(void)args;
 	(void)p;
-	(void)lenn;
+	(void)len;
 
 	ret += print_width(output, ret, flags, width);
 	ret += _memcpy(output, &percent, 1);
@@ -72,19 +72,19 @@ unsigned int conv_percent(va_list args, buff_t *output,
  * @flags: Flag modifiers.
  * @width: Width modifier.
  * @p: Precision modifier.
- * @lenn: Length modifier.
- * @output: A buffer_t struct containing a character array.
+ * @len: Length modifier.
+ * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */
 unsigned int conv_p(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn)
+		unsigned char flags, int width, int p, unsigned char len)
 {
 	char *null = "(nil)";
 	unsigned long int address;
 	unsigned int ret = 0;
 
-	(void)lenn;
+	(void)len;
 
 	address = va_arg(args, unsigned long int);
 	if (address == '\0')

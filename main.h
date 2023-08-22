@@ -26,13 +26,13 @@
  * struct buff_s - New type to defining buffer struct.
  * @buffer: A pointer to a character array.
  * @start1: A pointer to the start of buffer.
- * @lenn: The length of the string stored in the buffer.
+ * @len: The length of the string stored in the buffer.
 */
 typedef struct buff_s
 {
 	char *buffer;
 	char *start1;
-	unsigned int lenn;
+	unsigned int len;
 } buff_t;
 
 /**
@@ -62,31 +62,31 @@ int _printf(const char *format, ...);
 
 /* Conversion Specifier Functions */
 unsigned int conv_c(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_s(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_di(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_percent(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int convert_b(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int convert_u(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int convert_o(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_x(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_X(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_S(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_p(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_r(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_R(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 
 /* Handlers */
 unsigned char handle_flags(const char *flags, char *ind);

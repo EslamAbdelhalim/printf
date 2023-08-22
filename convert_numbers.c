@@ -1,13 +1,13 @@
 #include "main.h"
 
 unsigned int conv_di(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_b(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_u(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 unsigned int conv_o(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn);
+		unsigned char flags, int width, int p, unsigned char len);
 
 /**
  * conv_di - Converts an argument to a signed int and
@@ -16,23 +16,23 @@ unsigned int conv_o(va_list args, buff_t *output,
  * @flags: Flag modifiers.
  * @width: Width modifier.
  * @p: Precision modifier.
- * @lenn: Length modifier.
+ * @len: Length modifier.
  * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */
 unsigned int conv_di(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn)
+		unsigned char flags, int width, int p, unsigned char len)
 {
 	long int dd, co;
 	unsigned int ret = 0, count = 0;
 	char pad, space = ' ', neg = '-', plus = '+';
 
-	if (lenn == LONG)
+	if (len == LONG)
 		dd = va_arg(args, long int);
 	else
 		dd = va_arg(args, int);
-	if (lenn == SHORT)
+	if (len == SHORT)
 		dd = (short)dd;
 
 	/* Handle space flag */
@@ -88,19 +88,19 @@ unsigned int conv_di(va_list args, buff_t *output,
  * @flags: Flag modifiers.
  * @width: Width modifier.
  * @p: Precision modifier.
- * @lenn: Length modifier.
+ * @len: Length modifier.
  * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */
 unsigned int conv_b(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn)
+		unsigned char flags, int width, int p, unsigned char len)
 {
 	unsigned int numm;
 
 	numm = va_arg(args, unsigned int);
 
-	(void)lenn;
+	(void)len;
 
 	return (convert_ubase(output, numm, "01", flags, width, p));
 }
@@ -112,23 +112,23 @@ unsigned int conv_b(va_list args, buff_t *output,
  * @flags: Flag modifiers.
  * @width: Width modifier.
  * @p: Precision modifier.
- * @lenn: Length modifier.
+ * @len: Length modifier.
  * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */
 unsigned int conv_o(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn)
+		unsigned char flags, int width, int p, unsigned char len)
 {
 	unsigned long int numm;
 	unsigned int ret = 0;
 	char zero = '0';
 
-	if (lenn == LONG)
+	if (len == LONG)
 		numm = va_arg(args, unsigned long int);
 	else
 		numm = va_arg(args, unsigned int);
-	if (lenn == SHORT)
+	if (len == SHORT)
 		numm = (unsigned short)numm;
 
 	if (HASH_FLAG == 1 && numm != 0)
@@ -150,22 +150,22 @@ unsigned int conv_o(va_list args, buff_t *output,
  * @flags: Flag modifiers.
  * @width: Width modifier.
  * @p: Precision modifier.
- * @lenn: Length modifier.
+ * @len: Length modifier.
  * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */
 unsigned int conv_u(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char lenn)
+		unsigned char flags, int width, int p, unsigned char len)
 {
 	unsigned long int numm;
 	unsigned int ret = 0;
 
-	if (lenn == LONG)
+	if (len == LONG)
 		numm = va_arg(args, unsigned long int);
 	else
 		numm = va_arg(args, unsigned int);
-	if (lenn == SHORT)
+	if (len == SHORT)
 		numm = (unsigned short)numm;
 
 	if (!(numm == 0 && p == 0))
