@@ -481,8 +481,4 @@ Output:
 
 
 ## Acknowledgements :pray:
-
-The `_printf` function emulates functionality of the C standard library
-function `printf`. This README borrows from the Linux man page
-[printf(3)](https://linux.die.net/man/3/printf).
 **xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx**

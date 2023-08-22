@@ -26,7 +26,7 @@ void cleanup(va_list args, buffer_t *output)
  */
 int run_printf(const char *format, va_list args, buffer_t *output)
 {
-	int i, wid, prec, ret = 0;
+	int i, width, prec, ret = 0;
 	char tmp;
 	unsigned char flags, len;
 	unsigned int (*f)(va_list, buffer_t *,
@@ -39,7 +39,7 @@ int run_printf(const char *format, va_list args, buffer_t *output)
 		{
 			tmp = 0;
 			flags = handle_flags(format + i + 1, &tmp);
-			wid = handle_width(args, format + i + tmp + 1, &tmp);
+			width = handle_width(args, format + i + tmp + 1, &tmp);
 			prec = handle_precision(args, format + i + tmp + 1,
 					&tmp);
 			len = handle_length(format + i + tmp + 1, &tmp);
@@ -48,7 +48,7 @@ int run_printf(const char *format, va_list args, buffer_t *output)
 			if (f != NULL)
 			{
 				i += tmp + 1;
-				ret += f(args, output, flags, wid, prec, len);
+				ret += f(args, output, flags, width, prec, len);
 				continue;
 			}
 			else if (*(format + i + tmp + 1) == '\0')
