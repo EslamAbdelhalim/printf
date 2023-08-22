@@ -2,16 +2,17 @@
 
 unsigned int conv_c(va_list args, buff_t *output,
 		unsigned char flags, int width, int p, unsigned char lenn);
-unsigned int conv_percent(va_list args, buffer_t *output,
+unsigned int conv_percent(va_list args, buff_t *output,
 		unsigned char flags, int width, int p, unsigned char lenn);
-
+unsigned int conv_p(va_list args, buff_t *output,
+		unsigned char flags, int width, int p, unsigned char lenn);
 /**
  * conv_c - Converts an argument to an unsigned char and
  *             stores it to a buffer contained in a struct.
  * @args: A va_list pointing to the argument to be converted.
  * @flags: Flag modifiers.
- * @width: A width modifier.
- * @p: A precision modifier.
+ * @width: Width modifier.
+ * @p: Precision modifier.
  * @lenn: A length modifier.
  * @output: A buff_t struct containing a character array.
  *
@@ -21,18 +22,18 @@ unsigned int conv_c(va_list args, buff_t *output,
 		unsigned char flags, int width, int p, unsigned char lenn)
 {
 	char g;
-	unsigned int rt = 0;
+	unsigned int ret = 0;
 
 	(void)p;
 	(void)lenn;
 
 	g = va_arg(args, int);
 
-	rt += print_width(output, rt, flags, width);
-	rt += _memcpy(output, &g, 1);
-	rt += print_neg_width(output, rt, flags, width);
+	ret += print_width(output, ret, flags, width);
+	ret += _memcpy(output, &g, 1);
+	ret += print_neg_width(output, ret, flags, width);
 
-	return (rt);
+	return (ret);
 }
 
 /**
@@ -40,9 +41,9 @@ unsigned int conv_c(va_list args, buff_t *output,
  *                   buffer contained in a struct.
  * @args: A va_list pointing to the argument to be converted.
  * @flags: Flag modifiers.
- * @width: A width modifier.
- * @p: A precision modifier.
- * @lenn: A length modifier.
+ * @width: Width modifier.
+ * @p: Precision modifier.
+ * @lenn: Length modifier.
  * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer (always 1).
@@ -50,16 +51,49 @@ unsigned int conv_c(va_list args, buff_t *output,
 unsigned int conv_percent(va_list args, buff_t *output,
 		unsigned char flags, int width, int p, unsigned char lenn)
 {
-	char perc = '%';
-	unsigned int rt = 0;
+	char percent = '%';
+	unsigned int ret = 0;
 
 	(void)args;
 	(void)p;
 	(void)lenn;
 
-	rt += print_width(output, rt, flags, width);
-	rt += _memcpy(output, &perc, 1);
-	rt += print_neg_width(output, rt, flags, width);
+	ret += print_width(output, ret, flags, width);
+	ret += _memcpy(output, &percent, 1);
+	ret += print_neg_width(output, ret, flags, width);
 
-	return (rt);
+	return (ret);
+}
+
+/**
+ * conv_p - Converts the address of an argument to hex and
+ *             stores it to a buffer contained in a struct.
+ * @args: A va_list pointing to the argument to be converted.
+ * @flags: Flag modifiers.
+ * @width: Width modifier.
+ * @p: Precision modifier.
+ * @lenn: Length modifier.
+ * @output: A buffer_t struct containing a character array.
+ *
+ * Return: The number of bytes stored to the buffer.
+ */
+unsigned int conv_p(va_list args, buff_t *output,
+		unsigned char flags, int width, int p, unsigned char lenn)
+{
+	char *null = "(nil)";
+	unsigned long int address;
+	unsigned int ret = 0;
+
+	(void)lenn;
+
+	address = va_arg(args, unsigned long int);
+	if (address == '\0')
+		return (_memcpy(output, null, 5));
+
+	flags |= 32;
+	ret += convert_ubase(output, address, "0123456789abcdef",
+			flags, width, p);
+	ret += print_neg_width(output, ret, flags, width);
+
+	return (ret);
 }

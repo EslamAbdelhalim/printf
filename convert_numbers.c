@@ -14,10 +14,10 @@ unsigned int conv_o(va_list args, buff_t *output,
  *              stores it to a buffer contained in a struct.
  * @args: A va_list pointing to the argument to be converted.
  * @flags: Flag modifiers.
- * @width: A width modifier.
- * @p: A precision modifier.
- * @lenn: A length modifier.
- * @output: A buffer_t struct containing a character array.
+ * @width: Width modifier.
+ * @p: Precision modifier.
+ * @lenn: Length modifier.
+ * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */
@@ -25,7 +25,7 @@ unsigned int conv_di(va_list args, buff_t *output,
 		unsigned char flags, int width, int p, unsigned char lenn)
 {
 	long int dd, co;
-	unsigned int rt = 0, count = 0;
+	unsigned int ret = 0, count = 0;
 	char pad, space = ' ', neg = '-', plus = '+';
 
 	if (lenn == LONG)
@@ -37,7 +37,7 @@ unsigned int conv_di(va_list args, buff_t *output,
 
 	/* Handle space flag */
 	if (SPACE_FLAG == 1 && dd >= 0)
-		rt += _memcpy(output, &space, 1);
+		ret += _memcpy(output, &space, 1);
 
 	if (p <= 0 && NEG_FLAG == 0) /* Handle width  */
 	{
@@ -55,30 +55,30 @@ unsigned int conv_di(va_list args, buff_t *output,
 
 		/* Handle plus flag when zero flag is active */
 		if (ZERO_FLAG == 1 && PLUS_FLAG == 1 && dd >= 0)
-			rt += _memcpy(output, &plus, 1);
+			ret += _memcpy(output, &plus, 1);
 		/*Print negative sign when zero flag is active */
 		if (ZERO_FLAG == 1 && dd < 0)
-			rt += _memcpy(output, &neg, 1);
+			ret += _memcpy(output, &neg, 1);
 
 		pad = (ZERO_FLAG == 1) ? '0' : ' ';
 		for (width -= count; width > 0; width--)
-			rt += _memcpy(output, &pad, 1);
+			ret += _memcpy(output, &pad, 1);
 	}
 
 	/* Print negative sign when zero flag is not active */
 	if (ZERO_FLAG == 0 && dd < 0)
-		rt += _memcpy(output, &neg, 1);
+		ret += _memcpy(output, &neg, 1);
 	/* Handle plus flag when zero flag is not active */
 	if (ZERO_FLAG == 0 && (PLUS_FLAG == 1 && dd >= 0))
-		rt += _memcpy(output, &plus, 1);
+		ret += _memcpy(output, &plus, 1);
 
 	if (!(dd == 0 && p == 0))
-		rt += convert_sbase(output, dd, "0123456789",
+		ret += convert_sbase(output, dd, "0123456789",
 				flags, 0, p);
 
-	rt += print_neg_width(output, rt, flags, width);
+	ret += print_neg_width(output, ret, flags, width);
 
-	return (rt);
+	return (ret);
 }
 
 /**
@@ -86,9 +86,9 @@ unsigned int conv_di(va_list args, buff_t *output,
  *             and stores it to a buffer contained in a struct.
  * @args: A va_list pointing to the argument to be converted.
  * @flags: Flag modifiers.
- * @width: A width modifier.
- * @p: A precision modifier.
- * @lenn: A length modifier.
+ * @width: Width modifier.
+ * @p: Precision modifier.
+ * @lenn: Length modifier.
  * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
@@ -110,9 +110,9 @@ unsigned int conv_b(va_list args, buff_t *output,
  *             stores it to a buffer contained in a struct.
  * @args: A va_list poinitng to the argument to be converted.
  * @flags: Flag modifiers.
- * @width: A width modifier.
- * @p: A precision modifier.
- * @lenn: A length modifier.
+ * @width: Width modifier.
+ * @p: Precision modifier.
+ * @lenn: Length modifier.
  * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
@@ -121,7 +121,7 @@ unsigned int conv_o(va_list args, buff_t *output,
 		unsigned char flags, int width, int p, unsigned char lenn)
 {
 	unsigned long int numm;
-	unsigned int rt = 0;
+	unsigned int ret = 0;
 	char zero = '0';
 
 	if (lenn == LONG)
@@ -132,15 +132,15 @@ unsigned int conv_o(va_list args, buff_t *output,
 		numm = (unsigned short)numm;
 
 	if (HASH_FLAG == 1 && numm != 0)
-		rt += _memcpy(output, &zero, 1);
+		ret += _memcpy(output, &zero, 1);
 
 	if (!(numm == 0 && p == 0))
-		rt += convert_ubase(output, numm, "01234567",
+		ret += convert_ubase(output, numm, "01234567",
 				flags, width, p);
 
-	rt += print_neg_width(output, rt, flags, width);
+	ret += print_neg_width(output, ret, flags, width);
 
-	return (rt);
+	return (ret);
 }
 
 /**
@@ -148,10 +148,10 @@ unsigned int conv_o(va_list args, buff_t *output,
  *               stores it to a buffer contained in a struct.
  * @args: A va_list pointing to the argument to be converted.
  * @flags: Flag modifiers.
- * @width: A width modifier.
- * @p: A precision modifier.
- * @lenn: A length modifier.
- * @output: A buffer_t struct containing a character array.
+ * @width: Width modifier.
+ * @p: Precision modifier.
+ * @lenn: Length modifier.
+ * @output: A buff_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */
@@ -159,7 +159,7 @@ unsigned int conv_u(va_list args, buff_t *output,
 		unsigned char flags, int width, int p, unsigned char lenn)
 {
 	unsigned long int numm;
-	unsigned int rt = 0;
+	unsigned int ret = 0;
 
 	if (lenn == LONG)
 		numm = va_arg(args, unsigned long int);
@@ -169,10 +169,10 @@ unsigned int conv_u(va_list args, buff_t *output,
 		numm = (unsigned short)numm;
 
 	if (!(numm == 0 && p == 0))
-		rt += convert_ubase(output, numm, "0123456789",
+		ret += convert_ubase(output, numm, "0123456789",
 				flags, width, p);
 
-	rt += print_neg_width(output, rt, flags, width);
+	ret += print_neg_width(output, ret, flags, width);
 
-	return (rt);
+	return (ret);
 }

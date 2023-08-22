@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # _printf :page_facing_up:
 
 A formatted output conversion C program completed as part of the low-level
@@ -473,3 +474,6 @@ Output:
  9223372036854775807           -> LONG_MAX
 -9223372036854775808           -> LONG_MIN
 ```
+=======
+Hello this is Printf Project and here we go .....
+>>>>>>> 48e03ea2b0148d31f8a1cfac7e805e7ffe9bc8a6
