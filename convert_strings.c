@@ -1,25 +1,25 @@
 #include "main.h"
 
-unsigned int conv_s(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char len);
+unsigned int convert_s(va_list args, buffer_t *output,
+		unsigned char flags, int width, int prec, unsigned char len);
 
 /**
- * conv_s - Converts an argument to a string and
+ * convert_s - Converts an argument to a string and
  *             stores it to a buffer contained in a struct.
  * @args: A va_list pointing to the argument to be converted.
  * @flags: Flag modifiers.
  * @width: Width modifier.
- * @p: Precision modifier.
- * @len: Length modifier.
- * @output: A buff_t struct containing a character array.
+ * @prec: precision modifier.
+ * @len: length modifier.
+ * @output: A buffer_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */
-unsigned int conv_s(va_list args, buff_t *output,
-		unsigned char flags, int width, int p, unsigned char len)
+unsigned int convert_s(va_list args, buffer_t *output,
+		unsigned char flags, int width, int prec, unsigned char len)
 {
 	char *str, *null = "(null)";
-	int sz;
+	int size;
 	unsigned int ret = 0;
 
 	(void)flags;
@@ -29,16 +29,16 @@ unsigned int conv_s(va_list args, buff_t *output,
 	if (str == NULL)
 		return (_memcpy(output, null, 6));
 
-	for (sz = 0; *(str + sz);)
-		sz++;
+	for (size = 0; *(str + size);)
+		size++;
 
-	ret += print_string_width(output, flags, width, p, sz);
+	ret += print_string_width(output, flags, width, prec, size);
 
-	p = (p == -1) ? sz : p;
-	while (*str != '\0' && p > 0)
+	prec = (prec == -1) ? size : prec;
+	while (*str != '\0' && prec > 0)
 	{
 		ret += _memcpy(output, str, 1);
-		p--;
+		prec--;
 		str++;
 	}
 
