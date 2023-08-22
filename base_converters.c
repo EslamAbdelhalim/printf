@@ -1,90 +1,103 @@
 #include "main.h"
 
-void cleanup(va_list args, buffer_t *output);
-int run_printf(const char *format, va_list args, buffer_t *output);
-int _printf(const char *format, ...);
+unsigned int conv_sbase(buff_t *output, long int numm, char *base,
+		unsigned char flags, int width, int p);
+unsigned int conv_ubase(buff_t *output,
+		unsigned long int numm, char *base,
+		unsigned char flags, int width, int p);
 
 /**
- * cleanup - Peforms cleanup operations for _printf.
- * @args: A va_list of arguments provided to _printf.
- * @output: A buffer_t struct.
- */
-void cleanup(va_list args, buffer_t *output)
-{
-	va_end(args);
-	write(1, output->start, output->len);
-	free_buffer(output);
-}
-
-/**
- * run_printf - Reads through the format string for _printf.
- * @format: Character string to print - may contain directives.
- * @output: A buffer_t struct containing a buffer.
- * @args: A va_list of arguments.
+ * conv_sbase - Converts a signed long to an inputted base and stores
+ *                 the result to a buffer contained in a struct.
+ * @output: A buff_t struct containing a character array.
+ * @numm: A signed long to be converted.
+ * @base: Pointer to a string containing the base to convert to.
+ * @flags: Flag modifiers.
+ * @width: A width modifier.
+ * @p: A precision modifier.
  *
- * Return: The number of characters stored to output.
+ * Return: The number of bytes stored to the buffer.
  */
-int run_printf(const char *format, va_list args, buffer_t *output)
+unsigned int conv_sbase(buff_t *output, long int numm, char *base,
+		unsigned char flags, int width, int p)
 {
-	int i, wid, prec, ret = 0;
-	char tmp;
-	unsigned char flags, len;
-	unsigned int (*f)(va_list, buffer_t *,
-			unsigned char, int, int, unsigned char);
+	int sz;
+	char digit, pad = '0';
+	unsigned int ret = 1;
 
-	for (i = 0; *(format + i); i++)
+	for (sz = 0; *(base + sz);)
+		sz++;
+
+	if (numm >= sz || numm <= -sz)
+		ret += conv_sbase(output, numm / sz, base,
+				flags, width - 1, p - 1);
+
+	else
 	{
-		len = 0;
-		if (*(format + i) == '%')
-		{
-			tmp = 0;
-			flags = handle_flags(format + i + 1, &tmp);
-			wid = handle_width(args, format + i + tmp + 1, &tmp);
-			prec = handle_precision(args, format + i + tmp + 1,
-					&tmp);
-			len = handle_length(format + i + tmp + 1, &tmp);
+		for (; p > 1; p--, width--) /* Handle precision */
+			ret += _memcpy(output, &pad, 1);
 
-			f = handle_specifiers(format + i + tmp + 1);
-			if (f != NULL)
-			{
-				i += tmp + 1;
-				ret += f(args, output, flags, wid, prec, len);
-				continue;
-			}
-			else if (*(format + i + tmp + 1) == '\0')
-			{
-				ret = -1;
-				break;
-			}
+		if (NEG_FLAG == 0) /* Handle width */
+		{
+			pad = (ZERO_FLAG == 1) ? '0' : ' ';
+			for (; width > 1; width--)
+				ret += _memcpy(output, &pad, 1);
 		}
-		ret += _memcpy(output, (format + i), 1);
-		i += (len != 0) ? 1 : 0;
 	}
-	cleanup(args, output);
+
+	digit = base[(numm < 0 ? -1 : 1) * (numm % sz)];
+	_memcpy(output, &digit, 1);
+
 	return (ret);
 }
 
 /**
- * _printf - Outputs a formatted string.
- * @format: Character string to print - may contain directives.
+ * conv_ubase - Converts an unsigned long to an inputted base and
+ *                 stores the result to a buffer contained in a struct.
+ * @output: A buffer_t struct containing a character array.
+ * @numm: An unsigned long to be converted.
+ * @base: Pointer to a string containing the base to convert to.
+ * @flags: Flag modifiers.
+ * @width: Width modifier.
+ * @p: Precision modifier.
  *
- * Return: The number of characters printed.
+ * Return: The number of bytes stored to the buffer.
  */
-int _printf(const char *format, ...)
+unsigned int conv_ubase(buff_t *output, unsigned long int numm, char *base,
+		unsigned char flags, int width, int p)
 {
-	buffer_t *output;
-	va_list args;
-	int ret;
+	unsigned int sz, ret = 1;
+	char digit, pad = '0', *lead = "0x";
 
-	if (format == NULL)
-		return (-1);
-	output = init_buffer();
-	if (output == NULL)
-		return (-1);
+	for (sz = 0; *(base + sz);)
+		sz++;
 
-	va_start(args, format);
+	if (numm >= sz)
+		ret += conv_ubase(output, numm / sz, base,
+				flags, width - 1, p - 1);
 
-	ret = run_printf(format, args, output);
+	else
+	{
+		if (((flags >> 5) & 1) == 1) /* Printing a ptr address */
+		{
+			width -= 2;
+			p -= 2;
+		}
+		for (; p > 1; p--, width--) /* Handle precision */
+			ret += _memcpy(output, &pad, 1);
+
+		if (NEG_FLAG == 0) /* Handle width */
+		{
+			pad = (ZERO_FLAG == 1) ? '0' : ' ';
+			for (; width > 1; width--)
+				ret += _memcpy(output, &pad, 1);
+		}
+		if (((flags >> 5) & 1) == 1) /* Print 0x for ptr address */
+			ret += _memcpy(output, lead, 2);
+	}
+
+	digit = base[(numm % sz)];
+	_memcpy(output, &digit, 1);
 
 	return (ret);
 }

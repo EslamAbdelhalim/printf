@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # _printf :page_facing_up:
 
 A formatted output conversion C program completed as part of the low-level
@@ -473,16 +474,6 @@ Output:
  9223372036854775807           -> LONG_MAX
 -9223372036854775808           -> LONG_MIN
 ```
-
-## Authors :black_nib:
-
-* (cm-amos)Amos Mwongela <[cm-amos](https://github.com/cm-amos)>
-* Kibangedi <[kibagendi20](https://github.com/kibagendi20)>
-
-
-## Acknowledgements :pray:
-
-The `_printf` function emulates functionality of the C standard library
-function `printf`. This README borrows from the Linux man page
-[printf(3)](https://linux.die.net/man/3/printf).
-**hhhh**
+=======
+Hello this is Printf Project and here we go .....
+>>>>>>> 48e03ea2b0148d31f8a1cfac7e805e7ffe9bc8a6
