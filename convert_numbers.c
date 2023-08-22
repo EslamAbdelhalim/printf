@@ -1,22 +1,22 @@
 #include "main.h"
 
 unsigned int convert_di(va_list args, buffer_t *output,
-		unsigned char flags, int width, int prec, unsigned char len);
+		unsigned char flags, int wid, int prec, unsigned char len);
 
 /**
  * convert_di - Converts an argument to a signed int and
  *              stores it to a buffer contained in a struct.
  * @args: A va_list pointing to the argument to be converted.
  * @flags: Flag modifiers.
- * @width: Width modifier.
- * @prec: Precision modifier.
- * @len: Length modifier.
- * @output: buffer_t struct containing a character array.
+ * @wid: A width modifier.
+ * @prec: A precision modifier.
+ * @len: A length modifier.
+ * @output: A buffer_t struct containing a character array.
  *
  * Return: The number of bytes stored to the buffer.
  */
 unsigned int convert_di(va_list args, buffer_t *output,
-		unsigned char flags, int width, int prec, unsigned char len)
+		unsigned char flags, int wid, int prec, unsigned char len)
 {
 	long int d, copy;
 	unsigned int ret = 0, count = 0;
@@ -55,7 +55,7 @@ unsigned int convert_di(va_list args, buffer_t *output,
 			ret += _memcpy(output, &neg, 1);
 
 		pad = (ZERO_FLAG == 1) ? '0' : ' ';
-		for (wid -= count; width > 0; width--)
+		for (wid -= count; wid > 0; wid--)
 			ret += _memcpy(output, &pad, 1);
 	}
 
@@ -70,7 +70,7 @@ unsigned int convert_di(va_list args, buffer_t *output,
 		ret += convert_sbase(output, d, "0123456789",
 				flags, 0, prec);
 
-	ret += print_neg_width(output, ret, flags, width);
+	ret += print_neg_width(output, ret, flags, wid);
 
 	return (ret);
 }
