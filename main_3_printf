@@ -1,4 +1,4 @@
-.TH _PRINTF 3 "December 2018" "0.1" "Holberton School 0x10. C - _printf"
+.TH _PRINTF 3 "December 2023" "0.1" "Holberton School 0x10. C - _printf"
 
 .SH NAME
 .B _printf\fR \- formatted output conversion
@@ -282,4 +282,4 @@ function \fBprintf()\fR. This man page borrows from the corresponding Linux
 man page printf(3).
 
 .SH AUTHOR
-Brennan D Baraban and Michael Klein
+IslamAbdelhail
