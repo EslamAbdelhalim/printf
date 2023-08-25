@@ -1,67 +1,67 @@
 #include "main.h"
 
-void cleanup(va_list args, buff_t *output);
-int run_printf(const char *format, va_list args, buff_t *output);
+void cleanup(va_list args, buffer_t *output);
+int run_printf(const char *format, va_list args, buffer_t *output);
 int _printf(const char *format, ...);
 
 /**
- * cleanup - Peforms cleanup operations for _printf
- * @args: A va_list of arguments provided to _printf
- * @output: A buff_t struct
+ * cleanup - Peforms cleanup operations for _printf.
+ * @args: A va_list of arguments provided to _printf.
+ * @output: A buffer_t struct.
  */
-void cleanup(va_list args, buff_t *output)
+void cleanup(va_list args, buffer_t *output)
 {
 	va_end(args);
-	write(1, output->start1, output->lenn);
+	write(1, output->start, output->len);
 	free_buffer(output);
 }
 
 /**
- * run_printf - Reads through the format string for _printf
- * @format: Character string to print - may contain directives
- * @output: A buff_t struct containing a buffer
- * @args: A va_list of arguments
+ * run_printf - Reads through the format string for _printf.
+ * @format: Character string to print - may contain directives.
+ * @output: A buffer_t struct containing a buffer.
+ * @args: A va_list of arguments.
  *
  * Return: The number of characters stored to output.
  */
-int run_printf(const char *format, va_list args, buff_t *output)
+int run_printf(const char *format, va_list args, buffer_t *output)
 {
-	int j, width, p, rt = 0;
-	char tmmpp;
-	unsigned char flags, lenn;
-	unsigned int (*f)(va_list, buff_t *,
+	int i, wid, prec, ret = 0;
+	char tmp;
+	unsigned char flags, len;
+	unsigned int (*f)(va_list, buffer_t *,
 			unsigned char, int, int, unsigned char);
 
-	for (j = 0; *(format + j); j++)
+	for (i = 0; *(format + i); i++)
 	{
-		lenn = 0;
-		if (*(format + j) == '%')
+		len = 0;
+		if (*(format + i) == '%')
 		{
-			tmmpp = 0;
-			flags = handle_flags(format + j + 1, &tmmpp);
-			width = handle_width(args, format + j + tmmpp + 1, &tmmpp);
-			p = handle_precision(args, format + j + tmmpp + 1,
-					&tmmpp);
-			lenn = handle_length(format + j + tmmpp + 1, &tmmpp);
+			tmp = 0;
+			flags = handle_flags(format + i + 1, &tmp);
+			wid = handle_width(args, format + i + tmp + 1, &tmp);
+			prec = handle_precision(args, format + i + tmp + 1,
+					&tmp);
+			len = handle_length(format + i + tmp + 1, &tmp);
 
-			f = handle_specifiers(format + j + tmmpp + 1);
+			f = handle_specifiers(format + i + tmp + 1);
 			if (f != NULL)
 			{
-				j += tmmpp + 1;
-				rt += f(args, output, flags, width, p, lenn);
+				i += tmp + 1;
+				ret += f(args, output, flags, wid, prec, len);
 				continue;
 			}
-			else if (*(format + j + tmmpp + 1) == '\0')
+			else if (*(format + i + tmp + 1) == '\0')
 			{
-				rt = -1;
+				ret = -1;
 				break;
 			}
 		}
-		rt += _memcpy(output, (format + j), 1);
-		j += (lenn != 0) ? 1 : 0;
+		ret += _memcpy(output, (format + i), 1);
+		i += (len != 0) ? 1 : 0;
 	}
 	cleanup(args, output);
-	return (rt);
+	return (ret);
 }
 
 /**
@@ -72,9 +72,9 @@ int run_printf(const char *format, va_list args, buff_t *output)
  */
 int _printf(const char *format, ...)
 {
-	buff_t *output;
+	buffer_t *output;
 	va_list args;
-	int rt;
+	int ret;
 
 	if (format == NULL)
 		return (-1);
@@ -84,7 +84,7 @@ int _printf(const char *format, ...)
 
 	va_start(args, format);
 
-	rt = run_printf(format, args, output);
+	ret = run_printf(format, args, output);
 
-	return (rt);
+	return (ret);
 }

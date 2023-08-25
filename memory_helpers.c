@@ -1,61 +1,61 @@
 #include "main.h"
 
-unsigned int _memcpy(buff_t *output, const char *src, unsigned int k);
-void free_buffer(buff_t *output);
-buff_t *init_buffer(void);
+unsigned int _memcpy(buffer_t *output, const char *src, unsigned int n);
+void free_buffer(buffer_t *output);
+buffer_t *init_buffer(void);
 
 /**
  * _memcpy - Copies n bytes from memory area src to
- *           the buffer contained in a buff_t struct.
+ *           the buffer contained in a buffer_t struct.
  * @output: A buffer_t struct.
  * @src: A pointer to the memory area to copy.
- * @k: The number of bytes to be copied.
+ * @n: The number of bytes to be copied.
  *
  * Return: The number of bytes copied.
  */
-unsigned int _memcpy(buff_t *output, const char *src, unsigned int k)
+unsigned int _memcpy(buffer_t *output, const char *src, unsigned int n)
 {
-	unsigned int ind;
+	unsigned int index;
 
-	for (ind = 0; ind < n; ind++)
+	for (index = 0; index < n; index++)
 	{
-		*(output->buffer) = *(src + ind);
-		(output->lenn)++;
+		*(output->buffer) = *(src + index);
+		(output->len)++;
 
-		if (output->lenn == 1024)
+		if (output->len == 1024)
 		{
-			write(1, output->start1, output->lenn);
-			output->buffer = output->start1;
-			output->lenn = 0;
+			write(1, output->start, output->len);
+			output->buffer = output->start;
+			output->len = 0;
 		}
 
 		else
 			(output->buffer)++;
 	}
 
-	return (k);
+	return (n);
 }
 
 /**
  * free_buffer - Frees a buffer_t struct.
- * @output: The buff_t struct to be freed.
+ * @output: The buffer_t struct to be freed.
  */
-void free_buffer(buff_t *output)
+void free_buffer(buffer_t *output)
 {
-	free(output->start1);
+	free(output->start);
 	free(output);
 }
 
 /**
- * init_buffer - Initializes a variable of struct type buff_t.
+ * init_buffer - Initializes a variable of struct type buffer_t.
  *
- * Return: A pointer to the initialized buff_t.
+ * Return: A pointer to the initialized buffer_t.
  */
-buff_t *init_buffer(void)
+buffer_t *init_buffer(void)
 {
-	buff_t *output;
+	buffer_t *output;
 
-	output = malloc(sizeof(buff_t));
+	output = malloc(sizeof(buffer_t));
 	if (output == NULL)
 		return (NULL);
 
@@ -66,8 +66,8 @@ buff_t *init_buffer(void)
 		return (NULL);
 	}
 
-	output->start1 = output->buffer;
-	output->lenn = 0;
+	output->start = output->buffer;
+	output->len = 0;
 
 	return (output);
 }
